@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Chat with Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #chat {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: none; /* Initially hidden */
+        }
+        .message {
+            margin: 10px 0;
+        }
+        .message .name {
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 75%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #registration {
+            text-align: center;
+            display: block; /* Initially visible */
+        }
+        #chat-interface {
+            display: none; /* Initially hidden */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Simple Chat with Registration</h2>
+
+    <!-- Registration form -->
+    <div id="registration">
+        <h3>Enter your username</h3>
+        <input type="text" id="usernameInput" placeholder="Username">
+        <button onclick="registerUser()">Join Chat</button>
+    </div>
+
+    <!-- Chat interface -->
+    <div id="chat-interface">
+        <div id="chat">
+            <!-- Messages will appear here -->
+        </div>
+        <input type="text" id="messageInput" placeholder="Enter your message">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+    let username = '';
+    const chat = document.getElementById('chat');
+    const messageInput = document.getElementById('messageInput');
+    const registrationForm = document.getElementById('registration');
+    const chatInterface = document.getElementById('chat-interface');
+
+    // Register the user with a username
+    function registerUser() {
+        const usernameInput = document.getElementById('usernameInput').value;
+        if (usernameInput.trim() !== "") {
+            username = usernameInput;
+            registrationForm.style.display = 'none'; // Hide registration form
+            chatInterface.style.display = 'block';  // Show chat interface
+            chat.style.display = 'block'; // Show chat box
+        } else {
+            alert("Please enter a username!");
+        }
+    }
+
+    // Send message in the chat
+    function sendMessage() {
+        const message = messageInput.value;
+        if (message.trim() !== "") {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.innerHTML = `<span class="name">${username}:</span> ${message}`;
+            chat.appendChild(messageElement);
+            messageInput.value = '';
+            chat.scrollTop = chat.scrollHeight; // Scroll to the bottom
+        }
+    }
+
+    // Press Enter to send message
+    messageInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+</script>
+
+</body>
+</html>
